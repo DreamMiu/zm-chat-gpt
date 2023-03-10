@@ -27,7 +27,7 @@ class ZMChatGPT
     }
   }
 
-  #[\BotCommand(match: '清除个人设置')]
+  #[\BotCommand(match: '#清除个人设置')]
   public function testSegment(\BotContext $ctx)
   {
     $UserId = bot()->getEvent()->getUserId();
