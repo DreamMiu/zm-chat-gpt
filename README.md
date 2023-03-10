@@ -6,7 +6,7 @@
 ## 安装
 
 ```bash
-./zhamao plugin:install https://github.com/DreamMiu/ZMChatGPT.git
+./zhamao plugin:install https://github.com/dreammiu/zm-chat-gpt.git
 ```
 
 ## 命令
