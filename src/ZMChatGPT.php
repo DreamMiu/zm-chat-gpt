@@ -1,6 +1,6 @@
 <?php
 
-namespace ZMChatGPT;
+namespace dreammiu;
 
 use Exception;
 use ZM\Annotation\Framework\Init;
