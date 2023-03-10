@@ -1,0 +1,17 @@
+{
+  "name": "DreamMiu/ZMchatGPT",
+  "description": "这是一个基于炸毛v3.1.1开发的ChatGPT插件，他能通过炸毛方便在支持OneBotV12平台上使用",
+  "homepage": "https://github.com/DreamMiu/ZMChatGPT",
+  "authors": [
+    {
+      "name": "DreamMiu",
+      "email": "admin@owii.cn"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "ZMChatGPT\\": "src/"
+    }
+  }
+}
