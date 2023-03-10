@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Miu;
+namespace ZMChatGPT;
 
 use Exception;
 use ZM\Annotation\Framework\Init;
