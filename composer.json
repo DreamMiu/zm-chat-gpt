@@ -4,17 +4,20 @@
   "extra": {
     "zm-plugin-version": "1.0.0"
   },
-  "homepage": "https://github.com/DreamMiu/zm-chat-gpt",
-  "authors": [
-    {
-      "name": "DreamMiu",
-      "email": "admin@owii.cn"
-    }
-  ],
-  "license": "MIT",
   "autoload": {
     "psr-4": {
       "dreammiu\\": "src/"
-    }
+    },
+    "require": {
+      "dreammiu/zm-chat-gpt": "dev-master"
+    },
+    "license": "MIT",
+    "homepage": "https://github.com/DreamMiu/zm-chat-gpt",
+    "authors": [
+      {
+        "name": "DreamMiu",
+        "email": "admin@owii.cn"
+      }
+    ]
   }
 }
