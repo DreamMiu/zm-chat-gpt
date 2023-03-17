@@ -9,9 +9,6 @@
       "dreammiu\\": "src/"
     }
   },
-  "require": {
-    "dreammiu/zm-chat-gpt": "main"
-  },
   "license": "MIT",
   "homepage": "https://github.com/DreamMiu/zm-chat-gpt",
   "authors": [
