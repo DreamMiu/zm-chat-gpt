@@ -8,16 +8,6 @@
     "psr-4": {
       "dreammiu\\": "src/"
     },
-    "require": {
-      "dreammiu/zm-chat-gpt": "main"
-    },
-    "license": "MIT",
-    "homepage": "https://github.com/DreamMiu/zm-chat-gpt",
-    "authors": [
-      {
-        "name": "DreamMiu",
-        "email": "admin@owii.cn"
-      }
-    ]
+    "license": "MIT"
   }
 }
