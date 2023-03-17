@@ -7,21 +7,17 @@
   "autoload": {
     "psr-4": {
       "dreammiu\\": "src/"
-    },
-<<<<<<< HEAD
-    "license": "MIT"
-=======
-    "require": {
-      "dreammiu/zm-chat-gpt": "dev-master"
-    },
-    "license": "MIT",
-    "homepage": "https://github.com/DreamMiu/zm-chat-gpt",
-    "authors": [
-      {
-        "name": "DreamMiu",
-        "email": "admin@owii.cn"
-      }
-    ]
->>>>>>> parent of f05093d (1)
-  }
+    }
+  },
+  "require": {
+    "dreammiu/zm-chat-gpt": "main"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/DreamMiu/zm-chat-gpt",
+  "authors": [
+    {
+      "name": "DreamMiu",
+      "email": "admin@owii.cn"
+    }
+  ]
 }
