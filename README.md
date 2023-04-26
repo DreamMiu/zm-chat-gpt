@@ -55,6 +55,5 @@ curl_setopt($ch, CURLOPT_PROXY, "127.0.0.1"); //代理服务器地址
 curl_setopt($ch, CURLOPT_PROXYPORT, 1081); //代理服务器端口
 curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP); //使用http代理模式
 ```
-
 比如例如下方图片
 ![2{QIB0DMKIR0B@7OP 2`A}P](https://user-images.githubusercontent.com/30835281/224357757-c7db810e-6959-4ae9-8987-eba6af201bd9.jpg)
