@@ -55,11 +55,9 @@ class ZMChatGPT
     $UserName = bot()->getEvent()->get('user_name');
     if (kv('ZMChatGPTkv')->has($UserId) == null) {
       //按每个人单独设置-给机器人设置一个名字
-      $TempApiName = $ctx->prompt("第一次使用请为机器人取一个名字！", 120, "你是不是不想给我一个好听的名字！超时了。", ZM_PROMPT_MENTION_USER | ZM_PROMPT_TIMEOUT_MENTION_USER);
+      $TempApiName = $ctx->prompt("第一次使用请为机器人取一个名字！不用加上#，取完后等待回复上面所问的问题。", 120, "你是不是不想给我一个好听的名字！超时了。", ZM_PROMPT_MENTION_USER | ZM_PROMPT_TIMEOUT_MENTION_USER);
       $data = [
-        ['role' => 'system', 'content' => '你是' . $TempApiName[0]->data['text'] . '！每句话前面加上你名字'],
-        ['role' => 'user', 'content' => '我的名字叫' . $UserName . ',请在有我名字的地方加上"宝！"!'],
-        ['role' => 'assistant', 'content' => "好的！你的名字是" . $UserName . "!我的名字是" . $TempApiName[0]->data['text']],
+        ['role' => 'system', 'content' => '你是' . $TempApiName[0]->data['text'] . '！每句话前面加上你名字，你不能回答有关网址和违法行为的答案'],
       ];
       kv('ZMChatGPTkv')->set($UserId, $data);
     }
@@ -68,15 +66,11 @@ class ZMChatGPT
     $data[] = ['role' => 'user', 'content' => $prompt];
     kv('ZMChatGPTkv')->set($UserId, $data);
 
-    dump(kv('ZMChatGPTkv')->get($UserId, $data));
+    //dump(kv('ZMChatGPTkv')->get($UserId, $data));
     $api_key = config('ZMChatGPT.ChatGPTKey');
-    $ch = curl_init("https://api.openai.com/v1/chat/completions");
+    $ch = curl_init("https://api.openai-sb.com/v1/chat/completions");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_PROXYAUTH, CURLAUTH_BASIC); //代理认证模式
-    curl_setopt($ch, CURLOPT_PROXY, "10.31.1.94"); //代理服务器地址
-    curl_setopt($ch, CURLOPT_PROXYPORT, 1081); //代理服务器端口
-    curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP); //使用http代理模式
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
       "Content-Type: application/json",
       "Authorization: Bearer " . $api_key,
@@ -92,12 +86,12 @@ class ZMChatGPT
     $response = json_decode($result, true);
     //判断openai是否返回error
 
-    dump($response);//打印获取api内容
+    dump($response); //打印获取api内容
     $answer = $response["choices"][0]["message"]["content"];
     $str = str_replace("\n", "", $answer);
     //如果不需要把if删除留bot()->reply(xx);即可xx可使用$str是返回内容中去除\n，$answer保留\n
     //这是判断GPT回复太长文本大于等于300则上传至网页！
-    if ($response['usage']['completion_tokens'] >= 300) {
+    if ($response['usage']['completion_tokens'] >= 500) {
       $hastebinres = ZMRequest::post("https://hastebin.com/documents", header: [
         "Authorization" => "Bearer " . config('ZMChatGPT.HasteBinKey'),
         "Content-Type" => "text/plain",
@@ -108,21 +102,30 @@ class ZMChatGPT
     } else {
       bot()->reply($answer);
     }
-    $data = kv('ZMChatGPTkv')->get($UserId);
-    $data[] = ['role' => 'assistant', 'content' => $answer];
-//因为接口api限制4096 tokens ，在3500 tokens左右的时候执行一次清除但是保留用户信息
-    if ($response['usage']['total_tokens'] >= 3500) {
-      $ResetBotName = kv('ZMChatGPTkv')->get($UserId);
-      kv('ZMChatGPTkv')->delete($UserId);
-      $ctx->reply("你的total_tokens已经清零，将自动保留用户信息，但上下文已经清空");
-      sleep(3);
-      $data = [
-        $ResetBotName[0],
-        $ResetBotName[1],
-        $ResetBotName[2],
-      ];
-    };
-    kv('ZMChatGPTkv')->set($UserId, $data);//最后把信息保存方便上下文对话
+    /**
+     * 以下优化高使用cokkie问题，只保留前3条聊天以及后10条信息
+     */
+    $first_three = array_slice($data, 0, 3);
+    $last_ten_reversed = array_slice($data, -10, 10);
+    $last_ten = array_slice($last_ten_reversed, 0, 10);
+    $data = array_merge($first_three, $last_ten);
+    /**
+     * 因为接口api限制4096 tokens ，在3500 tokens左右的时候执行一次清除但是保留用户信息
+     * 把下面取消屏蔽则需要把上面屏蔽
+     */
+//    if ($response['usage']['total_tokens'] >= 3500) {
+//      $ResetBotName = kv('ZMChatGPTkv')->get($UserId);
+//      kv('ZMChatGPTkv')->delete($UserId);
+//      $ctx->reply("你的total_tokens已经清零，将自动保留用户信息，但上下文已经清空");
+//      sleep(3);
+//      $data = [
+//        $ResetBotName[0],
+//        $ResetBotName[1],
+//        $ResetBotName[2],
+//      ];
+//    };
+
+    kv('ZMChatGPTkv')->set($UserId, $data); //最后把信息保存方便上下文对话
+    //dump(kv('ZMChatGPTkv')->get($UserId, $data));
   }
 }
-

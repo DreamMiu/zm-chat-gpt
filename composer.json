@@ -2,7 +2,7 @@
   "name": "dreammiu/zm-chat-gpt",
   "description": "这是一个基于炸毛v3.1.1开发的ChatGPT插件，他能通过炸毛方便在支持OneBotV12平台上使用",
   "extra": {
-    "zm-plugin-version": "1.0.0"
+    "zm-plugin-version": "1.1.0"
   },
   "autoload": {
     "psr-4": {
