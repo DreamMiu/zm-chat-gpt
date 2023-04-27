@@ -1,8 +1,11 @@
 # ZMChatGPT
 
 这是一个 zhamao-robot / zhamao-framework 的插件，他的作用是请求gpt3.5的api
+
 ### 框架适配
+
 ##### 基于框架: 3.1.9 开发
+
 ## 安装
 
 ```bash
@@ -37,6 +40,16 @@ https://www.toptal.com/developers/hastebin/documentation
 1.打开在../zhamao-v3/vendor/dreammiu/zm-chat-gpt/src/ZMChatGPT.php
 2.寻找“-sb”然后删除(在文件中约第71行)
 3.可有可无，如果返回慢，需要配置代理
+4.在curl修改代码中插入（约72行中插修改代码然后配置）
+
+以下使用http方式代理使用
+
+``` httpProRT
+curl_setopt($ch, CURLOPT_PROXYAUTH, CURLAUTH_BASIC); //代理认证模式
+curl_setopt($ch, CURLOPT_PROXY, "127.0.0.1"); //代理服务器地址
+curl_setopt($ch, CURLOPT_PROXYPORT, 1081); //代理服务器端口
+curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP); //使用http代理模式
+```
 
 ## 命令
 
@@ -47,13 +60,5 @@ https://www.toptal.com/developers/hastebin/documentation
 
 ##因为GPT接口限制插件上下文total_tokens在3700左右会自动重置上下文信息并且保留第一次设置机器人名称，如需重置个人设定 使用
 “#清除个人设置” 命令清除
-在curl修改代码中插入（约72行中插修改代码然后配置）
-
-``` httpProRT
-curl_setopt($ch, CURLOPT_PROXYAUTH, CURLAUTH_BASIC); //代理认证模式
-curl_setopt($ch, CURLOPT_PROXY, "127.0.0.1"); //代理服务器地址
-curl_setopt($ch, CURLOPT_PROXYPORT, 1081); //代理服务器端口
-curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP); //使用http代理模式
-```
 比如例如下方图片
 ![2{QIB0DMKIR0B@7OP 2`A}P](https://user-images.githubusercontent.com/30835281/224357757-c7db810e-6959-4ae9-8987-eba6af201bd9.jpg)
